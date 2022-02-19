@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Version Ninja Options</title>
+    <meta charset="utf-8">
+    <style>
+    body { padding: 10px; }
+    .optionsForm { width: 600px; margin: 0 auto; }
+    label { width: 28%; text-align: right; }
+    input { width: 68%; text-align: left; }
+    label, input { display: inline-block; height: 1.7em; }
+    </style>
+  </head>
+  <body>
+    
+    <form id="optionsForm">
+      <span>
+        <label title="Text to display for the copy-action link added to task cards.">Action button character:</label>
+        <input type="text" id="actionButtonText" maxlength="1">
+      </span>
+      <span>
+        <label title="Format of the generated message. Available variables are %TASK_ID%, %TASK_DESC%, %STORY_ID%, and %STORY_DESC%.">Generated message format:</label>
+        <input type="text" id="generatedMessageFormat">
+      </span>
+    </div>
+    
+    <div id="status" style="top:0px;display:inline-block;"></div>
+    
+    <script src="options.js"></script>
+  </body>
+</html>
