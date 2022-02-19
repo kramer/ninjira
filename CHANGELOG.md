@@ -1,10 +1,7 @@
 # Changelog
 
-## v 2.3 (29/12/2021)
-* Use browser clipboard API to fix an issue which prevented the message from being written to clipboard on some systems. (https://github.com/kramer/version-ninja/pull/1)
+## v 1.3 (19/02/2022)
+* Actually a fork of v1.1 that uses manifest v3 to be able to publish on Chrome Web Store.
 
-## v 2.2 (29/11/2018)
-* Added notification bubble after copying to clipboard. (https://github.com/kramer/version-ninja/commit/c2b39308d6d3757201d6bbc85eee363461f9d665)
-
-## v 2.1 (23/02/2018)
+## v 1.1 (19/02/2022)
 * Initial release to addon stores.
