@@ -8,7 +8,7 @@ Provides customizable formatted text for a task of a story or defect in JIRA (Ag
 ![When the button is clicked the generated message is written to clipboard.](/screenshots/ss2.png)
 
 # Install
-Find ninjira on [chrome web store](https://chrome.google.com/webstore/detail/version-ninja/bbfnnceplmfkmkpklhnfkollaplccdnk?hl=en) or on [Firefox Add-Ons](https://addons.mozilla.org/en-US/firefox/addon/ninjira/).
+Find ninjira on [chrome web store](https://chrome.google.com/webstore/detail/ninjira/gmcpgkhmminaidglammpkhjpcibabaho) or on [Firefox Add-Ons](https://addons.mozilla.org/en-US/firefox/addon/ninjira/).
 
 # Permissions
 
