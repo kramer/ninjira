@@ -13,7 +13,7 @@
     },
 
     "content_scripts": [{
-        "matches": ["*://jira.corp.entaingroup.com/*"],
+        "matches": ["*://jira.corp.entaingroup.com/*", "*://jira-enterprise.corp.entaingroup.com/*"],
         "js": ["jquery-3.3.1.slim.min.js", "ninjira.js"]
     }],
 
