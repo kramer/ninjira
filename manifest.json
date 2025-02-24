@@ -1,8 +1,8 @@
 {
 
-    "manifest_version": 2,
+    "manifest_version": 3,
     "name": "Ninjira",
-    "version": "1.0",
+    "version": "1.4",
     "author": "Cihan Keser",
     "homepage_url": "https://github.com/kramer/ninjira",
     "description": "Extends Jira to generate formatted (commit) message for a task.",
@@ -13,7 +13,7 @@
     },
 
     "content_scripts": [{
-        "matches": ["*://jira.corp.entaingroup.com/*"],
+        "matches": ["*://jira-enterprise.corp.entaingroup.com/*"],
         "js": ["jquery-3.3.1.slim.min.js", "ninjira.js"]
     }],
 
@@ -24,5 +24,12 @@
     "permissions": [
         "clipboardWrite",
         "storage"
-    ]
+    ],
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "{3a1e4a47-a9c3-4a22-9799-1d48914212a8}",
+            "strict_min_version": "130.0"
+        }
+    }
 }
