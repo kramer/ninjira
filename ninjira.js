@@ -26,41 +26,50 @@ function injectScriptToPage(func) {
 // given issue-parent element and returns the formatted message.
 // returns null if any of the 4 elements is not found.
 function generateMessage(button) {
-    const storyLane = button.closest(".ghx-swimlane");
-    const storyHeader = storyLane.find(".ghx-heading");
-
-    const storyKey = storyHeader.find(".ghx-parent-key");
-    if(storyKey.length != 1) {
-        console.log("Expected to find one story-key but found " + storyKey.length);
+    const storyCard = button.closest("div[data-testid=\"software-board.board-container.board.card-group.card-group\"]");
+    if(storyCard.length != 1) {
+        console.log("Expected to find one story card but found " + storyCard.length);
         return null;
     }
-    const storyId = $(storyKey[0]).text();
 
-    const storySummary = storyHeader.find(".ghx-summary")                            
-    if(storySummary.length != 1) {
-        console.log("Expected to find one story-summary but found " + storySummary.length);
+    const storyHeader = storyCard.find("div[data-testid=\"software-board.board-container.board.card-group.card-group-header\"]");
+    if(storyHeader.length != 1) {
+        console.log("Expected to find one story header but found " + storyHeader.length);
         return null;
     }
-    const storyDesc = $(storySummary[0]).contents()
+
+    const storyId = storyHeader.find("span")[0].innerHTML;
+    console.log("storyId: " + storyId);
+
+    const storyDesc = storyHeader.find("span")[1].innerHTML;
+    console.log("storyDesc: " + storyDesc);
+
+    const taskCard = storyCard.find("div[data-testid=\"platform-board-kit.ui.card.card\"]");
+    if(taskCard.length != 1) {
+        console.log("Expected to find one task card but found " + taskCard.length);
+        return null;
+    }
+
+    const taskIdElem = taskCard.find("div[data-testid=\"platform-card.common.ui.key.key\"]");
+    if(taskIdElem.length != 1) {
+        console.log("Expected to find one task key but found " + taskIdElem.length);
+        return null;
+    }
+    const taskId = taskIdElem.text();
+    console.log("taskId: " + taskId);
+
+    const taskDescElem = taskCard.find("span[data-testid=\"issue-field-single-line-text-readview-card.ui.single-line-text.container.box\"]");
+    if(taskDescElem.length != 1) {
+        console.log("Expected to find one task desc but found " + taskDescElem.length);
+        return null;
+    }
+    const taskDesc = taskDescElem.contents()
         .filter(function () {
             return this.nodeType === Node.TEXT_NODE;
         })
         .text()
         .trim();
-
-    const subTaskLink = button.siblings("a.ghx-key-link");
-    if(subTaskLink.length != 1) {
-        console.log("Expected to find one sub-task-link but found " + subTaskLink.length);
-        return null;
-    }
-    const taskId = $(subTaskLink[0]).attr("title");
-
-    const taskFields = button.parents("div.ghx-issue-fields");
-    if(taskFields.length != 1) {
-        console.log("Expected to find one task-fields but found " + taskFields.length);
-        return null;
-    }
-    const taskDesc = $(taskFields[0]).find("div.ghx-summary").attr("title");
+    console.log("taskDesc: " + taskDesc);
 
     return generatedMessageFormat
         .replace("%STORY_ID%", storyId)
@@ -94,10 +103,10 @@ function handleButtonClick(event) {
 function addCopyActionButton(cards) {
     $("a." + cssClass).remove();
     for(const cardParent of cards) {
-        const issues = $(cardParent).find("div.ghx-key");
+        const issues = $(cardParent).find("div[data-testid=\"platform-card.common.ui.custom-fields.custom-card-field-list\"]");
         for(const issue of issues) {
             var button = $("<a></a>", {
-                class: cssClass + " ghx-key-link",
+                class: cssClass,
                 text: actionButtonText,
                 title: "Copy to clipboard as formatted message"
             });
@@ -124,8 +133,19 @@ function loadSettings(callback, cards) {
     });
 }
 
+function load() {
+    const board = $("div[data-testid=\"software-board.board-area\"]");    
+    const cards = board.find("div[data-testid=\"software-board.board-container.board.card-group.card-group\"]");
+    if(cards.length == 0) {
+        console.log("Ninjira found no cards!");
+    }
+    loadSettings(addCopyActionButton, cards);
+    
+    addWrapperDivObserver()
+}
+
 function addWrapperDivObserver() {
-    var targetNodes = $("div#ghx-work");
+    var targetNodes = $("div[data-testid=\"software-board.board-area\"]");    
     if(targetNodes.length == 1) {
         new MutationObserver(onWrapperDivMutation)
             .observe(targetNodes[0], { childList: true, subtree: true });
@@ -140,7 +160,7 @@ function onWrapperDivMutation(mutationsList, observer) {
         if (mutation.type != "childList") {
             continue;
         }
-        const cards = $(mutation.addedNodes).find(".ghx-parent-group");
+        const cards = $(mutation.addedNodes).find("div[data-testid=\"software-board.board-container.board.card-group.card-group\"]");
         if(cards.length == 0) {
             continue;
         }
@@ -149,4 +169,4 @@ function onWrapperDivMutation(mutationsList, observer) {
     }
 }
 
-document.onload = addWrapperDivObserver();
+document.onload = load();
